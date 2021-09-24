@@ -1,0 +1,32 @@
+include: package:effective_dart/analysis_options.yaml
+
+analyzer:
+  exclude: 
+    - build/**
+    - lib/**/*.g.dart
+    - lib/generated/**
+    - test/**/*.mocks.dart
+  errors:
+    missing_required_param: error
+    missing_return: error
+    always_declare_return_types: error
+
+linter:
+  rules:
+    camel_case_types: true
+    avoid_empty_else: true
+    always_declare_return_types: true
+    public_member_api_docs: false
+    prefer_relative_imports: true
+    argument_type_not_assignable: false
+    lines_longer_than_80_chars: false
+    constant_identifier_names: false
+    avoid_catches_without_on_clauses: false
+    avoid_classes_with_only_static_members: false
+    avoid_function_literals_in_foreach_calls: false
+    avoid_positional_boolean_parameters: false
+    type_annotate_public_apis: false
+    use_setters_to_change_properties: false
+    file_names: false
+    non_constant_identifier_names: false
+    avoid_returning_null: false
