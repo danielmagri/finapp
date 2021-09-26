@@ -1,4 +1,4 @@
-package com.example.finapp
+package com.magrizo.finapp
 
 import io.flutter.embedding.android.FlutterActivity
 

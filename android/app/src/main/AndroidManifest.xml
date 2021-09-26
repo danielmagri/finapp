@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.finapp">
+    package="com.magrizo.finapp">
    <application
         android:label="finapp"
         android:icon="@mipmap/ic_launcher">
