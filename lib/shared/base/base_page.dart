@@ -3,6 +3,7 @@ import 'package:flutter/material.dart'
     show FocusScope, State, StatefulWidget, debugPrint;
 
 import '../di/get_it_config.dart' show injector;
+import '../routes/app_navigation.dart';
 
 abstract class BaseStateWithController<T extends StatefulWidget,
     L extends Object> extends BaseState<T> {
@@ -22,7 +23,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
 
   // List<ReactionDisposer>? reactionsDisposers;
 
-  // AppNavigation appNavigation = GetIt.I.get<AppNavigation>();
+  AppNavigation appNavigation = injector.get<AppNavigation>();
 
   @protected
   void removeFocus() {
