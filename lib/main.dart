@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart'
     show
         Key,
@@ -20,6 +21,8 @@ import 'shared/theme/light_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
+
+  await Firebase.initializeApp();
 
   await injector.isReady<SharedPref>();
 

@@ -1,9 +1,32 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show
+        Colors,
+        Container,
+        EdgeInsets,
+        GlobalKey,
+        Icon,
+        Icons,
+        Key,
+        MediaQuery,
+        NavigatorState,
+        NeverScrollableScrollPhysics,
+        Scaffold,
+        SingleTickerProviderStateMixin,
+        StatefulWidget,
+        Tab,
+        TabBar,
+        TabBarView,
+        TabController,
+        Text,
+        TextAlign,
+        TextStyle,
+        Widget;
 
 import '../../../shared/base/base_page.dart';
 import '../../../shared/routes/core/model/tab_navigator.dart';
 import '../../../shared/routes/core/root_bottom_navigation.dart';
 import '../../../shared/widgets/focus_fixer.dart';
+import '../../transaction/presentation/transaction_page.dart';
 import 'navigation_controller.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -22,10 +45,7 @@ class _NavigationPageState
 
   List<TabNavigator> pageListTab = [
     TabNavigator(
-        navigatorKey: GlobalKey<NavigatorState>(),
-        tabPage: Container(
-          color: Colors.red,
-        )),
+        navigatorKey: GlobalKey<NavigatorState>(), tabPage: TransactionPage()),
   ];
 
   @override
@@ -49,7 +69,7 @@ class _NavigationPageState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     var bottomSpace = MediaQuery.of(context).padding.bottom;
     return FocusFixer(
       child: RootBottomNavigation(
@@ -72,8 +92,8 @@ class _NavigationPageState
               tabs: [
                 tabItem(
                     // Image.asset(Images.IC_WALL, width: 24, color: Colors.white),
-                    Icon(Icons.ac_unit_rounded),
-                    'S.of(context).navigationItemCalculate'),
+                    Icon(Icons.wallet_giftcard),
+                    'Transações'),
               ],
             ),
           ),

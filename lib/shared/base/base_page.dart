@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart' show protected;
 import 'package:flutter/material.dart'
     show FocusScope, State, StatefulWidget, debugPrint;
+import 'package:mobx/mobx.dart' show ReactionDisposer;
 
 import '../di/get_it_config.dart' show injector;
 import '../routes/app_navigation.dart';
@@ -12,8 +13,8 @@ abstract class BaseStateWithController<T extends StatefulWidget,
 
   @override
   void dispose() {
+    injector.resetLazySingleton<L>(instance: controller);
     super.dispose();
-    injector.resetLazySingleton(instance: controller);
     debugPrint("Disposed $L");
   }
 }
@@ -21,7 +22,7 @@ abstract class BaseStateWithController<T extends StatefulWidget,
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
   // bool _loading = false;
 
-  // List<ReactionDisposer>? reactionsDisposers;
+  List<ReactionDisposer>? reactionsDisposers;
 
   AppNavigation appNavigation = injector.get<AppNavigation>();
 
@@ -68,11 +69,11 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   //   }
   // }
 
-  // @override
-  // void dispose() {
-  //   reactionsDisposers?.forEach((dispose) {
-  //     dispose();
-  //   });
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    reactionsDisposers?.forEach((dispose) {
+      dispose();
+    });
+    super.dispose();
+  }
 }

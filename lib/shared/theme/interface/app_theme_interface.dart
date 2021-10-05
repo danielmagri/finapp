@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show ThemeData;
+import 'package:flutter/material.dart' show Color, ThemeData;
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
 abstract class IAppTheme {
@@ -7,8 +7,8 @@ abstract class IAppTheme {
     this.defaultSystemOverlayStyle,
     // this.sky,
     // this.skyHighlight,
-    // this.shimmerBase,
-    // this.shimmerHighlight,
+    this.shimmerBase,
+    this.shimmerHighlight,
     // this.cloud,
     // this.disableHabitCreationCard,
     // this.chipSelected,
@@ -25,8 +25,8 @@ abstract class IAppTheme {
 
   // final Color loading;
 
-  // final Color shimmerBase;
-  // final Color shimmerHighlight;
+  final Color shimmerBase;
+  final Color shimmerHighlight;
 
   // final Color drawerIcon;
 
