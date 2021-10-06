@@ -4,20 +4,20 @@ import '../base/base_usecase.dart';
 import '../di/get_it_config.dart';
 import '../model/generic/result.dart';
 import '../model/transaction.dart';
-import '../services/interfaces/i_fire_database.dart';
+import '../repositories/api/transactions_api.dart';
 import '../services/memory.dart';
 
 @usecase
 @injectable
 class TransactionUsecase extends BaseUsecase {
-  final IFireDatabase _fireDatabase;
+  final ITransactionsApi _transactionsApi;
   final Memory _memory;
 
-  TransactionUsecase(this._fireDatabase, this._memory);
+  TransactionUsecase(this._transactionsApi, this._memory);
 
   Future<Result<Transaction>> addTransaction(Transaction data) =>
       safeCall(() async {
-        final id = await _fireDatabase.addTransaction(data);
+        final id = await _transactionsApi.addTransaction(data);
         final newModel = Transaction(
             id: id,
             value: data.value,
@@ -32,7 +32,7 @@ class TransactionUsecase extends BaseUsecase {
           {bool fromServer = false}) =>
       safeCall(() async {
         if (_memory.transactions == null || fromServer) {
-          final list = await _fireDatabase.getTransactions();
+          final list = await _transactionsApi.getTransactions();
           _memory.transactions = list;
           return list;
         } else {

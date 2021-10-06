@@ -4,19 +4,19 @@ import '../base/base_usecase.dart';
 import '../di/get_it_config.dart';
 import '../model/generic/result.dart';
 import '../model/payee.dart';
-import '../services/interfaces/i_fire_database.dart';
+import '../repositories/api/payees_api.dart';
 import '../services/memory.dart';
 
 @usecase
 @injectable
 class PayeesUsecase extends BaseUsecase {
-  final IFireDatabase _fireDatabase;
+  final IPayeesApi _payeesApi;
   final Memory _memory;
 
-  PayeesUsecase(this._fireDatabase, this._memory);
+  PayeesUsecase(this._payeesApi, this._memory);
 
   Future<Result<String>> createPayee(Payee data) => safeCall(() async {
-        final value = await _fireDatabase.createPayee(data);
+        final value = await _payeesApi.createPayee(data);
         _memory.payees?.add(Payee(id: value, title: data.title));
         return value;
       });
@@ -31,7 +31,7 @@ class PayeesUsecase extends BaseUsecase {
 
   Future<Result<List<Payee>>> getPayees() => safeCall(() async {
         if (_memory.payees == null) {
-          final list = await _fireDatabase.getPayees();
+          final list = await _payeesApi.getPayees();
           _memory.payees = list;
           return list;
         } else {

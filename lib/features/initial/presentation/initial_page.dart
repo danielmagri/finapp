@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:flutter/material.dart'
+    show Container, Key, StatefulWidget, Widget;
 
 import '../../../shared/base/base_page.dart';
 import '../../navigation/presentation/navigation_page.dart';
@@ -17,13 +17,12 @@ class _InitialPageState
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
-      appNavigation.push(NavigationPage(), isFullPage: true);
-    });
+    controller.loadData().whenComplete(
+        () => appNavigation.push(NavigationPage(), isFullPage: true));
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Container();
   }
 }
