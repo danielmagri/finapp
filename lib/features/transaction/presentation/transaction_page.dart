@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../shared/base/base_page.dart';
-import '../../../shared/model/transaction.dart';
 import '../../../shared/widgets/skeleton.dart';
-import '../bottomSheet/add_transaction_bottom_sheet.dart';
 import 'transaction_controller.dart';
 
 class TransactionPage extends StatefulWidget {
@@ -18,7 +16,7 @@ class _TransactionPageState
     extends BaseStateWithController<TransactionPage, TransactionController> {
   @override
   void initState() {
-    controller.initialize();
+    controller.getTransactions();
     super.initState();
   }
 
@@ -28,18 +26,6 @@ class _TransactionPageState
       appBar: AppBar(),
       body: Column(
         children: [
-          ElevatedButton(
-              onPressed: () {
-                showModalBottomSheet(
-                    context: appNavigation.fullPageContext!,
-                    isScrollControlled: true,
-                    builder: (_) => AddTransactionBottomSheet()).then((value) {
-                  if (value is Transaction) {
-                    controller.addTransaction(value);
-                  }
-                });
-              },
-              child: Text('add')),
           Observer(
               builder: (_) => controller.listTransactions.handleState(
                   () => Skeleton(width: 100, height: 100),

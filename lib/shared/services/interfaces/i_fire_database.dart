@@ -3,8 +3,8 @@ import '../../model/transaction.dart';
 
 abstract class IFireDatabase {
   Future<String> addTransaction(Transaction data);
-  Future<List<Transaction>> list();
+  Future<List<Transaction>> getTransactions();
 
   Future<String> createPayee(Payee data);
-  Future<List<Payee>> listPayee();
+  Future<List<Payee>> getPayees();
 }

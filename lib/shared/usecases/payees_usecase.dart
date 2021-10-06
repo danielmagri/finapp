@@ -29,9 +29,9 @@ class PayeesUsecase extends BaseUsecase {
         }
       });
 
-  Future<Result<List<Payee>>> getList() => safeCall(() async {
+  Future<Result<List<Payee>>> getPayees() => safeCall(() async {
         if (_memory.payees == null) {
-          final list = await _fireDatabase.listPayee();
+          final list = await _fireDatabase.getPayees();
           _memory.payees = list;
           return list;
         } else {

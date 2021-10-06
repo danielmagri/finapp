@@ -1,32 +1,31 @@
+import 'package:animations/animations.dart'
+    show FadeThroughTransition, PageTransitionSwitcher;
 import 'package:flutter/material.dart'
     show
+        CircularNotchedRectangle,
         Colors,
-        Container,
-        EdgeInsets,
+        FloatingActionButton,
+        FloatingActionButtonLocation,
         GlobalKey,
         Icon,
         Icons,
         Key,
-        MediaQuery,
         NavigatorState,
-        NeverScrollableScrollPhysics,
         Scaffold,
-        SingleTickerProviderStateMixin,
         StatefulWidget,
-        Tab,
-        TabBar,
-        TabBarView,
-        TabController,
-        Text,
-        TextAlign,
-        TextStyle,
+        UniqueKey,
         Widget;
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../shared/base/base_page.dart';
+import '../../../shared/model/transaction.dart';
 import '../../../shared/routes/core/model/tab_navigator.dart';
 import '../../../shared/routes/core/root_bottom_navigation.dart';
 import '../../../shared/widgets/focus_fixer.dart';
+import '../../budget/presentation/budget_page.dart';
+import '../../transaction/bottomSheet/add_transaction_bottom_sheet.dart';
 import '../../transaction/presentation/transaction_page.dart';
+import '../widgets/fab_bottom_bar.dart';
 import 'navigation_controller.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -37,75 +36,66 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState
-    extends BaseStateWithController<NavigationPage, NavigationController>
-    with SingleTickerProviderStateMixin {
-  static const INITIAL_PAGE = 0;
-
-  TabController? tabController;
-
+    extends BaseStateWithController<NavigationPage, NavigationController> {
   List<TabNavigator> pageListTab = [
     TabNavigator(
-        navigatorKey: GlobalKey<NavigatorState>(), tabPage: TransactionPage()),
+        key: UniqueKey(),
+        navigatorKey: GlobalKey<NavigatorState>(),
+        tabPage: TransactionPage()),
+    TabNavigator(
+        key: UniqueKey(),
+        navigatorKey: GlobalKey<NavigatorState>(),
+        tabPage: BudgetPage()),
   ];
 
-  @override
-  void initState() {
-    tabController = TabController(
-        length: pageListTab.length, vsync: this, initialIndex: INITIAL_PAGE);
-
-    tabController?.addListener(() {
-      if (tabController?.indexIsChanging == true &&
-          tabController?.index != null) {
-        controller.switchPage(tabController!.index);
+  void addButtonAction() {
+    AddTransactionBottomSheet.showModal(context).then((value) {
+      if (value is Transaction) {
+        controller.updateTransactions();
       }
     });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    tabController?.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(context) {
-    var bottomSpace = MediaQuery.of(context).padding.bottom;
     return FocusFixer(
       child: RootBottomNavigation(
         pages: pageListTab,
-        initialPage: INITIAL_PAGE,
+        initialPage: controller.pageIndex,
         child: Scaffold(
-          body: TabBarView(
-            controller: tabController,
-            children: pageListTab,
-            physics: NeverScrollableScrollPhysics(),
-          ),
-          bottomNavigationBar: Container(
-            padding: EdgeInsets.only(bottom: bottomSpace),
-            color: Colors.green,
-            height: 80 + bottomSpace,
-            child: TabBar(
-              indicatorWeight: 3,
-              labelColor: Colors.black,
-              controller: tabController,
-              tabs: [
-                tabItem(
-                    // Image.asset(Images.IC_WALL, width: 24, color: Colors.white),
-                    Icon(Icons.wallet_giftcard),
-                    'Transações'),
-              ],
+          body: Observer(
+            builder: (_) => PageTransitionSwitcher(
+              duration: const Duration(milliseconds: 400),
+              transitionBuilder: (child, animation, secondaryAnimation) =>
+                  FadeThroughTransition(
+                      animation: animation,
+                      secondaryAnimation: secondaryAnimation,
+                      child: child),
+              child: pageListTab[controller.pageIndex],
             ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: FloatingActionButton(
+            onPressed: addButtonAction,
+            child: Icon(Icons.add),
+            elevation: 4.0,
+          ),
+          bottomNavigationBar: FABBottomBar(
+            initialPage: controller.pageIndex,
+            onTabSelected: controller.switchPage,
+            items: const [
+              FABBottomBarItem(
+                  iconData: Icons.monetization_on, text: 'Transactions'),
+              FABBottomBarItem(iconData: Icons.money, text: 'Budget'),
+            ],
+            backgroundColor: Colors.white,
+            color: Colors.red,
+            selectedColor: Colors.blue,
+            notchedShape: CircularNotchedRectangle(),
           ),
         ),
       ),
     );
   }
-
-  Widget tabItem(Widget icon, String text) => Tab(
-        icon: icon,
-        iconMargin: const EdgeInsets.only(bottom: 8),
-        child: Text(text,
-            textAlign: TextAlign.center, style: TextStyle(color: Colors.white)),
-      );
 }

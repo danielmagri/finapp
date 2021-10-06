@@ -42,7 +42,8 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       registerFor: {_usecase});
   gh.singletonAsync<_i10.SharedPref>(() => _i10.SharedPref.initialize());
   gh.factory<_i11.TransactionUsecase>(
-      () => _i11.TransactionUsecase(get<_i4.IFireDatabase>()),
+      () =>
+          _i11.TransactionUsecase(get<_i4.IFireDatabase>(), get<_i7.Memory>()),
       registerFor: {_usecase});
   gh.lazySingleton<_i12.AddTransationController>(() =>
       _i12.AddTransationController(

@@ -10,6 +10,12 @@ import 'add_transaction_controller.dart';
 class AddTransactionBottomSheet extends StatefulWidget {
   const AddTransactionBottomSheet({Key? key}) : super(key: key);
 
+  static Future<T?> showModal<T>(BuildContext context) =>
+      showModalBottomSheet<T>(
+          context: context,
+          isScrollControlled: true,
+          builder: (_) => AddTransactionBottomSheet());
+
   @override
   _AddTransactionBottomSheetState createState() =>
       _AddTransactionBottomSheetState();

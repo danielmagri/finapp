@@ -29,7 +29,7 @@ abstract class _AddTransationControllerBase with Store {
   final DataState<List<Payee>> listPayeesState = DataState();
 
   void initialize() {
-    _payeesUsecase.getList().resultCompleteSet(listPayeesState);
+    _payeesUsecase.getPayees().resultCompleteSet(listPayeesState);
   }
 
   void addTransaction() async {

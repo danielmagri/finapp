@@ -21,7 +21,7 @@ class FireDatabase implements IFireDatabase {
   }
 
   @override
-  Future<List<Transaction>> list() async {
+  Future<List<Transaction>> getTransactions() async {
     return transactions.get().then((value) => value.docs
         .map(
             (e) => Transaction.fromJson(e.data() as Map<String, dynamic>, e.id))
@@ -34,7 +34,7 @@ class FireDatabase implements IFireDatabase {
   }
 
   @override
-  Future<List<Payee>> listPayee() {
+  Future<List<Payee>> getPayees() {
     return payees.get().then((value) => value.docs
         .map((e) => Payee.fromJson(e.data() as Map<String, dynamic>, e.id))
         .toList());

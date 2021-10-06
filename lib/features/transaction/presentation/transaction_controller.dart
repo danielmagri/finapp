@@ -19,13 +19,9 @@ abstract class _TransactionControllerBase with Store {
 
   DataState<List<Transaction>> listTransactions = DataState();
 
-  void initialize() {
-    _transactionUsecase.getList().resultCompleteSet(listTransactions);
-  }
+  ReactionDisposer? listTransactionsReaction;
 
-  void addTransaction(Transaction data) {
-    final list = listTransactions.data;
-    list?.add(data);
-    listTransactions.setData(list);
+  void getTransactions() {
+    _transactionUsecase.getTransactions().resultCompleteSet(listTransactions);
   }
 }
