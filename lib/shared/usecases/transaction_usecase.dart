@@ -22,7 +22,8 @@ class TransactionUsecase extends BaseUsecase {
             id: id,
             value: data.value,
             payeeId: data.payeeId,
-            categoryId: data.categoryId);
+            categoryId: data.categoryId,
+            datetime: data.datetime);
         _memory.transactions?.add(newModel);
         return newModel;
       });

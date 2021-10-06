@@ -48,7 +48,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.lazySingleton<_i12.AddTransationController>(() =>
       _i12.AddTransationController(
           get<_i11.TransactionUsecase>(), get<_i9.PayeesUsecase>()));
-  gh.lazySingleton<_i13.TransactionController>(
-      () => _i13.TransactionController(get<_i11.TransactionUsecase>()));
+  gh.lazySingleton<_i13.TransactionController>(() => _i13.TransactionController(
+      get<_i11.TransactionUsecase>(), get<_i9.PayeesUsecase>()));
   return get;
 }

@@ -51,7 +51,8 @@ abstract class _AddTransationControllerBase with Store {
         .addTransaction(Transaction(
             value: double.tryParse(valueController.text) ?? 0,
             payeeId: payeeId,
-            categoryId: categoryController.text))
+            categoryId: categoryController.text,
+            datetime: DateTime.now()))
         .resultCompleteSet(addState);
   }
 }

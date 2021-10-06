@@ -38,4 +38,12 @@ class PayeesUsecase extends BaseUsecase {
           return Future.value(_memory.payees);
         }
       });
+
+  Payee? getPayeeModel(String id) {
+    try {
+      return _memory.payees?.firstWhere((element) => element.id == id);
+    } catch (e) {
+      return null;
+    }
+  }
 }
