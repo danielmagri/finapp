@@ -1,13 +1,13 @@
-class Payee {
+class Category {
   final String? id;
   final String title;
 
-  Payee({
+  Category({
     this.id,
     required this.title,
   });
 
-  factory Payee.fromJson(Map<String, dynamic> json, String id) => Payee(
+  factory Category.fromJson(Map<String, dynamic> json, String id) => Category(
         id: id,
         title: json['title'] ?? '',
       );

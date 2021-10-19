@@ -3,7 +3,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../shared/di/get_it_config.dart';
 import '../../../shared/routes/app_navigation.dart';
-import '../../transaction/presentation/transaction_controller.dart';
+import '../../transaction/presentation/list/transaction_controller.dart';
 
 part 'navigation_controller.g.dart';
 

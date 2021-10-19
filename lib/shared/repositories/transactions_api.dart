@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 
-import '../../di/get_it_config.dart';
-import '../../model/transaction.dart';
-import '../../services/interfaces/i_fire_database.dart';
+import '../di/get_it_config.dart';
+import '../model/transaction.dart';
+import '../services/interfaces/i_fire_database.dart';
 
 abstract class ITransactionsApi {
   Future<String> addTransaction(Transaction data);

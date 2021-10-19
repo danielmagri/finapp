@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart'
     show BuildContext, Navigator, Route, Widget;
 import 'package:injectable/injectable.dart';
+
 import 'core/app_navigation_handler.dart';
 
 @lazySingleton

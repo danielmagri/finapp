@@ -15,4 +15,7 @@ class FireDatabase implements IFireDatabase {
 
   @override
   CollectionReference get payees => firestore.collection('payees');
+
+  @override
+  CollectionReference get categories => firestore.collection('categories');
 }

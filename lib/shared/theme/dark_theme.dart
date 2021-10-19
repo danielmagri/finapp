@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart'
     show Brightness, Color, Colors, ThemeData;
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
+
 import 'interface/app_theme_interface.dart';
 
 class DarkTheme implements IAppTheme {

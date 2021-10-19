@@ -3,9 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
-import '../../../shared/base/base_page.dart';
-import '../../../shared/model/transaction.dart';
-import '../../../shared/widgets/skeleton.dart';
+import '../../../../shared/base/base_page.dart';
+import '../../../../shared/inputs/formatters/currency_text_input_formatter.dart';
+import '../../../../shared/model/transaction.dart';
+import '../../../../shared/widgets/skeleton.dart';
 import 'transaction_controller.dart';
 
 class TransactionPage extends StatefulWidget {
@@ -53,9 +54,12 @@ class _TransactionPageState
                   child: ListTile(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    title: Text(element.value.toString()),
-                    subtitle: Text(
-                        controller.getPayeeModel(element.payeeId)?.title ?? ''),
+                    title: Text(CurrencyTextInputFormatter()
+                        .format(element.value.toString())),
+                    subtitle: Text(controller
+                            .getCategoryModel(element.categoryId)
+                            ?.title ??
+                        ''),
                   ),
                 ),
               );

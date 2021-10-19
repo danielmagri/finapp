@@ -23,8 +23,8 @@ import '../../../shared/routes/core/model/tab_navigator.dart';
 import '../../../shared/routes/core/root_bottom_navigation.dart';
 import '../../../shared/widgets/focus_fixer.dart';
 import '../../budget/presentation/budget_page.dart';
-import '../../transaction/bottomSheet/add_transaction_bottom_sheet.dart';
-import '../../transaction/presentation/transaction_page.dart';
+import '../../transaction/presentation/add/add_transaction_page.dart';
+import '../../transaction/presentation/list/transaction_page.dart';
 import '../widgets/fab_bottom_bar.dart';
 import 'navigation_controller.dart';
 
@@ -49,7 +49,7 @@ class _NavigationPageState
   ];
 
   void addButtonAction() {
-    AddTransactionBottomSheet.showModal(context).then((value) {
+    appNavigation.push(AddTransactionPage(), isFullPage: true).then((value) {
       if (value is Transaction) {
         controller.updateTransactions();
       }

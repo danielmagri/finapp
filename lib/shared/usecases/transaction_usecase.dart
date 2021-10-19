@@ -4,7 +4,7 @@ import '../base/base_usecase.dart';
 import '../di/get_it_config.dart';
 import '../model/generic/result.dart';
 import '../model/transaction.dart';
-import '../repositories/api/transactions_api.dart';
+import '../repositories/transactions_api.dart';
 import '../services/memory.dart';
 
 @usecase
@@ -21,7 +21,6 @@ class TransactionUsecase extends BaseUsecase {
         final newModel = Transaction(
             id: id,
             value: data.value,
-            payeeId: data.payeeId,
             categoryId: data.categoryId,
             datetime: data.datetime);
         _memory.transactions?.add(newModel);
