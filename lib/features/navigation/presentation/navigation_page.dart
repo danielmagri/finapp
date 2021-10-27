@@ -65,7 +65,7 @@ class _NavigationPageState
         child: Scaffold(
           body: Observer(
             builder: (_) => PageTransitionSwitcher(
-              duration: const Duration(milliseconds: 400),
+              duration: const Duration(milliseconds: 300),
               transitionBuilder: (child, animation, secondaryAnimation) =>
                   FadeThroughTransition(
                       animation: animation,
