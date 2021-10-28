@@ -15,18 +15,22 @@ class Transaction {
     required this.datetime,
   });
 
+  static const VALUE = 'value';
+  static const CATEGORY_ID = 'categoryId';
+  static const DATETIME = 'date';
+
   factory Transaction.fromJson(Map<String, dynamic> json, String id) =>
       Transaction(
         id: id,
-        value: json['value'] ?? 0,
-        categoryId: json['categoryId'] ?? '',
+        value: json[VALUE] ?? 0,
+        categoryId: json[CATEGORY_ID] ?? '',
         datetime: DateTime.fromMillisecondsSinceEpoch(
-            (json['date'] as Timestamp).millisecondsSinceEpoch),
+            (json[DATETIME] as Timestamp).millisecondsSinceEpoch),
       );
 
   Map<String, dynamic> toJson() => {
-        'value': value,
-        'categoryId': categoryId,
-        'date': datetime,
+        VALUE: value,
+        CATEGORY_ID: categoryId,
+        DATETIME: datetime,
       };
 }

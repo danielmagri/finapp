@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../../../shared/base/base_page.dart';
+import '../../../shared/widgets/skeleton.dart';
 import '../widgets/budget_header.dart';
+import 'budget_controller.dart';
 
 class BudgetPage extends StatefulWidget {
   const BudgetPage({Key? key}) : super(key: key);
@@ -9,24 +13,19 @@ class BudgetPage extends StatefulWidget {
   _BudgetPageState createState() => _BudgetPageState();
 }
 
-class _BudgetPageState extends State<BudgetPage> {
+class _BudgetPageState
+    extends BaseStateWithController<BudgetPage, BudgetController> {
   final _controller = ScrollController();
 
-  bool isEmpty = false;
+  @override
+  void initState() {
+    super.initState();
+    controller.fetchBudgets();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF0C0101),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.forward),
-        backgroundColor: Colors.red,
-        onPressed: () {
-          setState(() {
-            isEmpty = !isEmpty;
-          });
-        },
-      ),
       body: NotificationListener<ScrollEndNotification>(
         onNotification: (_) {
           _snapAppbar();
@@ -38,43 +37,47 @@ class _BudgetPageState extends State<BudgetPage> {
           slivers: [
             SliverAppBar(
               pinned: true,
-              stretch: true,
+              stretch: false,
               flexibleSpace: BudgetHeader(),
               expandedHeight: BudgetHeader.maxHeight,
             ),
-            if (!isEmpty)
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return _buildCard(index);
-                  },
-                ),
-              )
-            else
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(
-                  child: Text(
-                    "List is empty",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
+            Observer(
+              builder: (_) => controller.budgetsState.handleState(
+                () => SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                        (context, index) => Skeleton(width: 100, height: 100))),
+                (data) => SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    return Container(
+                      margin: EdgeInsets.only(left: 12, right: 12, top: 12),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(controller
+                                    .getCategoryModel(data![index].categoryId)
+                                    ?.title ??
+                                ''),
+                          ),
+                          Text(data[index].amountSpent.toString())
+          //                 TextField(
+          //   textAlign: TextAlign.center,
+          //   style: TextStyle(fontSize: 14),
+          //   cursorWidth: 0,
+          //   decoration: InputDecoration(
+          //       border: InputBorder.none,
+          //       hintText: CurrencyTextInputFormatter().format('0,00')),
+          //   keyboardType: TextInputType.number,
+          //   // inputFormatters: [controller.currencyTextInput],
+          // ),
+                        ],
+                      ),
+                    );
+                  }, childCount: data?.length ?? 0),
                 ),
               ),
+            )
           ],
         ),
-      ),
-    );
-  }
-
-  Card _buildCard(int index) {
-    return Card(
-      elevation: 4,
-      margin: EdgeInsets.only(left: 12, right: 12, top: 12),
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 24, horizontal: 12),
-        child: Text("Item $index"),
       ),
     );
   }

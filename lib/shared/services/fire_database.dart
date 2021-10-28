@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart'
     show CollectionReference, FirebaseFirestore;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 
 import '../di/get_it_config.dart';
@@ -11,10 +12,13 @@ class FireDatabase implements IFireDatabase {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
+  WriteBatch get batch => firestore.batch();
+
+  @override
   CollectionReference get transactions => firestore.collection('transactions');
 
   @override
-  CollectionReference get payees => firestore.collection('payees');
+  CollectionReference get budgets => firestore.collection('budgets');
 
   @override
   CollectionReference get categories => firestore.collection('categories');
