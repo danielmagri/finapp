@@ -20,6 +20,7 @@ abstract class _BudgetControllerBase with Store {
 
   final DataState<List<Budget>> budgetsState = DataState();
 
+  @observable
   DateTime currentDate = DateTime.now();
 
   void fetchBudgets() async {
@@ -52,6 +53,11 @@ abstract class _BudgetControllerBase with Store {
     });
 
     budgetsState.setData(budgets);
+  }
+
+  void monthChange(int offset) {
+    currentDate = DateTime(currentDate.year, currentDate.month + offset);
+    fetchBudgets();
   }
 
   Category? getCategoryModel(String id) =>

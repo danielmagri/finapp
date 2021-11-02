@@ -4,7 +4,6 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../../shared/base/base_page.dart';
-import '../../../../shared/inputs/formatters/currency_text_input_formatter.dart';
 import '../../../../shared/model/transaction.dart';
 import '../../../../shared/widgets/skeleton.dart';
 import 'transaction_controller.dart';
@@ -54,8 +53,7 @@ class _TransactionPageState
                   child: ListTile(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    title: Text(CurrencyTextInputFormatter()
-                        .format(element.value.toString())),
+                    title: Text(element.value),
                     subtitle: Text(controller
                             .getCategoryModel(element.categoryId)
                             ?.title ??

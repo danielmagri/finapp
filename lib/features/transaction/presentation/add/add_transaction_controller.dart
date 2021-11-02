@@ -59,7 +59,7 @@ abstract class _AddTransactionControllerBase with Store {
   void addTransaction() async {
     _transactionUsecase
         .addTransaction(Transaction(
-            value: currencyTextInput.getUnformattedValue().toDouble(),
+            value: currencyTextInput.getUnformattedValue().toStringAsFixed(2),
             categoryId: categorySelected!.id ?? '',
             datetime: dates[dateSelected].item2!))
         .resultCompleteSet(addState);

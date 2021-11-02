@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 
 import '../../../shared/base/base_page.dart';
 import '../../../shared/widgets/skeleton.dart';
@@ -38,7 +39,14 @@ class _BudgetPageState
             SliverAppBar(
               pinned: true,
               stretch: false,
-              flexibleSpace: BudgetHeader(),
+              flexibleSpace: Observer(
+                builder: (_) => BudgetHeader(
+                  month:
+                      DateFormat.MMMM().format(controller.currentDate),
+                  avaiableMoney: '0,00',
+                  monthChange: controller.monthChange,
+                ),
+              ),
               expandedHeight: BudgetHeader.maxHeight,
             ),
             Observer(
@@ -59,16 +67,16 @@ class _BudgetPageState
                                 ''),
                           ),
                           Text(data[index].amountSpent.toString())
-          //                 TextField(
-          //   textAlign: TextAlign.center,
-          //   style: TextStyle(fontSize: 14),
-          //   cursorWidth: 0,
-          //   decoration: InputDecoration(
-          //       border: InputBorder.none,
-          //       hintText: CurrencyTextInputFormatter().format('0,00')),
-          //   keyboardType: TextInputType.number,
-          //   // inputFormatters: [controller.currencyTextInput],
-          // ),
+                          //                 TextField(
+                          //   textAlign: TextAlign.center,
+                          //   style: TextStyle(fontSize: 14),
+                          //   cursorWidth: 0,
+                          //   decoration: InputDecoration(
+                          //       border: InputBorder.none,
+                          //       hintText: CurrencyTextInputFormatter().format('0,00')),
+                          //   keyboardType: TextInputType.number,
+                          //   // inputFormatters: [controller.currencyTextInput],
+                          // ),
                         ],
                       ),
                     );

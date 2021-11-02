@@ -30,7 +30,7 @@ class TransactionsApi implements ITransactionsApi {
           Budget.YEAR: data.datetime.year,
           Budget.MONTH: data.datetime.month,
           Budget.CATEGORY_ID: data.categoryId,
-          Budget.AMOUNT_SPENT: FieldValue.increment(data.value)
+          Budget.AMOUNT_SPENT: FieldValue.increment(data.valueNum)
         },
         SetOptions(merge: true));
     final doc = _fireDatabase.transactions.doc();
