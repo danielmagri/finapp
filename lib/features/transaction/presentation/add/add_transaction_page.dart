@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../../shared/base/base_page.dart';
+import '../../../../shared/enums/transaction_type.dart';
 import '../../../../shared/inputs/formatters/currency_text_input_formatter.dart';
 import '../../../../shared/model/category.dart';
 import '../../../../shared/widgets/custom_drop_down.dart';
@@ -44,6 +45,26 @@ class _AddTransactionPageState extends BaseStateWithController<
       appBar: AppBar(),
       body: Column(
         children: [
+          Row(
+            children: [
+              Observer(
+                builder: (context) => Wrap(
+                  children: List<Widget>.generate(
+                    TransactionType.values.length,
+                    (index) {
+                      return ChoiceChip(
+                        label: Text(TransactionType.values[index].prettyText),
+                        selected: controller.transactionTypeSelected == index,
+                        onSelected: (selected) {
+                          controller.selectType(index);
+                        },
+                      );
+                    },
+                  ).toList(),
+                ),
+              )
+            ],
+          ),
           TextField(
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 30),
@@ -83,20 +104,22 @@ class _AddTransactionPageState extends BaseStateWithController<
             ],
           ),
           Observer(
-              builder: (_) => controller.listCategoriesState.handleState(
-                    () => Skeleton(width: 100, height: 100),
-                    (data) => CustomDropDown<Category>(
-                        label: 'Categorias',
-                        items: data
-                            ?.map((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Text(e.title),
-                                ))
-                            .toList(),
-                        onChanged: (e) {
-                          controller.categorySelected = e;
-                        }),
-                  )),
+              builder: (_) => controller.showCategory
+                  ? controller.listCategoriesState.handleState(
+                      () => Skeleton(width: 100, height: 100),
+                      (data) => CustomDropDown<Category>(
+                          label: 'Categorias',
+                          items: data
+                              ?.map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e.title),
+                                  ))
+                              .toList(),
+                          onChanged: (e) {
+                            controller.categorySelected = e;
+                          }),
+                    )
+                  : SizedBox()),
           ElevatedButton(
               onPressed: () {
                 controller.addTransaction();

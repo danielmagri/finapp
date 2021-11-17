@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../shared/model/budget.dart';
+import '../../../shared/model/budget_category.dart';
 import '../../../shared/model/category.dart';
 import '../../../shared/model/generic/data_state.dart';
 import '../../../shared/usecases/budgets_usecase.dart';
@@ -18,7 +18,7 @@ abstract class _BudgetControllerBase with Store {
 
   _BudgetControllerBase(this._categoriesUsecase, this._budgetsUsecase);
 
-  final DataState<List<Budget>> budgetsState = DataState();
+  final DataState<List<BudgetCategory>> budgetsState = DataState();
 
   @observable
   DateTime currentDate = DateTime.now();
@@ -43,9 +43,7 @@ abstract class _BudgetControllerBase with Store {
 
     categoriesResult.data!.forEach((category) {
       if (!budgets.any((e) => e.categoryId == category.id)) {
-        budgets.add(Budget(
-            year: currentDate.year,
-            month: currentDate.month,
+        budgets.add(BudgetCategory(
             categoryId: category.id!,
             budgetValue: 0,
             amountSpent: 0));

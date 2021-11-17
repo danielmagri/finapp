@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart'
 import 'package:injectable/injectable.dart';
 
 import '../di/get_it_config.dart';
-import '../model/budget.dart';
+import '../enums/transaction_type.dart';
+import '../model/budget_category.dart';
 import '../model/transaction.dart';
 import '../services/interfaces/i_fire_database.dart';
 
@@ -23,16 +24,15 @@ class TransactionsApi implements ITransactionsApi {
   Future<String> addTransaction(Transaction data) async {
     final batch = _fireDatabase.batch;
 
-    batch.set(
-        _fireDatabase.budgets.doc(
-            '${data.categoryId}${data.datetime.year}${data.datetime.month}'),
-        {
-          Budget.YEAR: data.datetime.year,
-          Budget.MONTH: data.datetime.month,
-          Budget.CATEGORY_ID: data.categoryId,
-          Budget.AMOUNT_SPENT: FieldValue.increment(data.valueNum)
-        },
-        SetOptions(merge: true));
+    if (data.type == TransactionType.OUTCOME) {
+      batch.set(
+          _fireDatabase
+              .budgetsCategories('${data.datetime.year}${data.datetime.month}')
+              .doc(data.categoryId),
+          {BudgetCategory.AMOUNT_SPENT: FieldValue.increment(data.value)},
+          SetOptions(merge: true));
+    }
+
     final doc = _fireDatabase.transactions.doc();
     batch.set(doc, data.toJson());
 

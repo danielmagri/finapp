@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../../../shared/enums/transaction_type.dart';
 import '../../../../shared/inputs/formatters/currency_text_input_formatter.dart';
 import '../../../../shared/model/category.dart';
 import '../../../../shared/model/generic/data_state.dart';
@@ -27,6 +28,9 @@ abstract class _AddTransactionControllerBase with Store {
       CurrencyTextInputFormatter();
 
   @observable
+  int transactionTypeSelected = 0;
+
+  @observable
   int dateSelected = 0;
 
   final List<Tuple2<String, DateTime?>> dates = [
@@ -35,6 +39,9 @@ abstract class _AddTransactionControllerBase with Store {
     Tuple2('Outro', null)
   ];
 
+  @observable
+  bool showCategory = true;
+
   Category? categorySelected;
 
   final DataState<Transaction> addState = DataState();
@@ -42,6 +49,12 @@ abstract class _AddTransactionControllerBase with Store {
 
   void initialize() {
     _categoriesUsecase.getCategories().resultCompleteSet(listCategoriesState);
+  }
+
+  @action
+  void selectType(int index) {
+    transactionTypeSelected = index;
+    showCategory = TransactionType.values[index] != TransactionType.INCOME;
   }
 
   @action
@@ -59,8 +72,9 @@ abstract class _AddTransactionControllerBase with Store {
   void addTransaction() async {
     _transactionUsecase
         .addTransaction(Transaction(
-            value: currencyTextInput.getUnformattedValue().toStringAsFixed(2),
-            categoryId: categorySelected!.id ?? '',
+            type: TransactionType.values[transactionTypeSelected],
+            value: currencyTextInput.getUnformattedValue().toDouble(),
+            categoryId: categorySelected?.id,
             datetime: dates[dateSelected].item2!))
         .resultCompleteSet(addState);
   }

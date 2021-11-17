@@ -18,8 +18,12 @@ class FireDatabase implements IFireDatabase {
   CollectionReference get transactions => firestore.collection('transactions');
 
   @override
+  CollectionReference get categories => firestore.collection('categories');
+
+  @override
   CollectionReference get budgets => firestore.collection('budgets');
 
   @override
-  CollectionReference get categories => firestore.collection('categories');
+  CollectionReference budgetsCategories(String budget) =>
+      budgets.doc(budget).collection('categories');
 }

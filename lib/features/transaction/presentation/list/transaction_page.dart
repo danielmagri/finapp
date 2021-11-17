@@ -4,6 +4,7 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../../shared/base/base_page.dart';
+import '../../../../shared/enums/transaction_type.dart';
 import '../../../../shared/model/transaction.dart';
 import '../../../../shared/widgets/skeleton.dart';
 import 'transaction_controller.dart';
@@ -53,11 +54,11 @@ class _TransactionPageState
                   child: ListTile(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    title: Text(element.value),
-                    subtitle: Text(controller
-                            .getCategoryModel(element.categoryId)
+                    title: Text(element.valueText),
+                    subtitle: element.type == TransactionType.OUTCOME ? Text(controller
+                            .getCategoryModel(element.categoryId!)
                             ?.title ??
-                        ''),
+                        '') : Text('Renda'),
                   ),
                 ),
               );

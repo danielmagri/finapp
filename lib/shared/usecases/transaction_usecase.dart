@@ -20,6 +20,7 @@ class TransactionUsecase extends BaseUsecase {
         final id = await _transactionsApi.addTransaction(data);
         final newModel = Transaction(
             id: id,
+            type: data.type,
             value: data.value,
             categoryId: data.categoryId,
             datetime: data.datetime);

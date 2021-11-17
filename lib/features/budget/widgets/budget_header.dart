@@ -45,7 +45,7 @@ class BudgetHeader extends StatelessWidget {
         (maxHeight - minHeight);
     if (expandRatio > 1.0) expandRatio = 1.0;
     if (expandRatio < 0.0) expandRatio = 0.0;
-    print(expandRatio);
+
     return expandRatio;
   }
 
